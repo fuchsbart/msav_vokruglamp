@@ -52,7 +52,8 @@ class Msav_VokrugLamp_Helper {
 
 		// Process the products feed
 		foreach ( $shop->shop->offers->offer as $offer ) {
-
+			$current_product = Msav_VokrugLamp_Product::get_from_xml($offer);
+			die(print_r($current_product, true));
 		}
 	}
 

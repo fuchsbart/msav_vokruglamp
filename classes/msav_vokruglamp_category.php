@@ -88,6 +88,27 @@ class Msav_VokrugLamp_Category {
 	}
 
 	/**
+	 * Search for a category by vendor ID.
+	 *
+	 * @param int $_id
+	 *
+	 * @return Msav_VokrugLamp_Category|null
+	 */
+	public static function get_by_vendor_id($_id) {
+		$res = null;
+
+		/** @var Msav_VokrugLamp_Category $item */
+		foreach ( Msav_VokrugLamp_Helper::get_instance()->categories_list as $item ) {
+			if ($item->id == $_id) {
+				$res = $item;
+				break;
+			}
+		}
+
+		return $res;
+	}
+
+	/**
 	 * Returns the parent category object
 	 *
 	 * @return Msav_VokrugLamp_Category|null
@@ -108,7 +129,14 @@ class Msav_VokrugLamp_Category {
 		return $res;
 	}
 
+	/**
+	 * Update category information
+	 *
+	 * @return bool
+	 */
 	public function update_category() {
+		$res = false;
+
 		if ($this->id > 0 && $this->name != '') {
 			$ps_id = $this->get_database_id();
 			if ($ps_id == -1 && $this->name != '' && $this->id > -1) {
@@ -127,9 +155,12 @@ class Msav_VokrugLamp_Category {
 
 				try {
 					$cat->save();
+					$res = true;
 				} catch ( PrestaShopException $e ) {
 				}
 			}
 		}
+
+		return $res;
 	}
 }
