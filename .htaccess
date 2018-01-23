@@ -1,0 +1,4 @@
+<Files ./cron.bat>
+    Order Allow,Deny
+    Deny from all
+</Files>
