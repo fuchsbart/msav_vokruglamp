@@ -5,6 +5,12 @@ if (!defined('_PS_VERSION_'))
 class Msav_VokrugLamp_Product {
 
 	/**
+	 * The database product Id
+	 * @var int
+	 */
+	private $db_id;
+
+	/**
 	 * Vendor Id. The field can take absolutely unexpected values. There is no logic for assigning values to the field.
 	 * @var mixed
 	 */
@@ -81,6 +87,7 @@ class Msav_VokrugLamp_Product {
 	 */
 	public function __construct() {
 		$this->id               = '';
+		$this->db_id            = -1;
 		$this->name             = '';
 		$this->sku              = '';
 		$this->manufacturer     = null;
@@ -95,12 +102,47 @@ class Msav_VokrugLamp_Product {
 	}
 
 	/**
+	 * Extract product database Id
+	 *
+	 * @return bool
+	 */
+	public function get_database_id() {
+		$res = false;
+
+		if ($this->db_id == -1 && $this->id > 0 && $this->name != '') {
+			$lang_id = Configuration::get('PS_LANG_DEFAULT');
+			$db_products = Product::searchByName($lang_id, $this->name);
+			if (is_array($db_products) && count($db_products) > 0) {
+				$res = true;
+				$this->db_id = $db_products[0]['id_product'];
+			}
+		}
+
+		return $res;
+	}
+
+	/**
 	 * Update product information
 	 *
 	 * @return bool
 	 */
 	public function update_product() {
 		$res = false;
+
+		/** @var Product $product */
+		$product = null;
+
+		// Get database ID
+		if ($this->db_id == -1) {
+			if ($this->get_database_id()) {
+				$product = new Product($this->db_id, true);
+				die(print_r($product, true));
+			} else {
+				$product = new Product();
+				$product->checkDefaultAttributes();
+				die(print_r($product, true));
+			}
+		}
 
 		return $res;
 	}

@@ -45,6 +45,8 @@ class Msav_VokrugLamp_Helper {
 	}
 
 	private function import_products() {
+		$updated = 0;
+
 		$shop = $this->xml_file->get_xml();
 		if ($shop == null) {
 			die("XML Error");
@@ -52,9 +54,15 @@ class Msav_VokrugLamp_Helper {
 
 		// Process the products feed
 		foreach ( $shop->shop->offers->offer as $offer ) {
+			/** @var Msav_VokrugLamp_Product Current product from offer node */
 			$current_product = Msav_VokrugLamp_Product::get_from_xml($offer);
-			die(print_r($current_product, true));
+			if ( $current_product != null && $current_product->update_product() ) {
+				$updated++;
+				die(print_r($current_product, true));
+			}
 		}
+
+		return $updated;
 	}
 
 	private function import_categories() {
