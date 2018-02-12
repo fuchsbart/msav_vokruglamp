@@ -142,6 +142,25 @@ class Msav_VokrugLamp_Product {
 		if ($this->db_id == -1) {
 			if ($this->get_database_id()) {
 				$product = new Product($this->db_id, true);
+				$modified = false;
+
+				// Set the price
+				if ($product->price != (float)$this->price) {
+					$product->price = $this->price;
+					$modified = true;
+				}
+
+				// Try to update the product
+				if ($modified) {
+					try { $product->save(); }
+					catch (Exception $exception) { }
+				}
+
+				// Set product stock
+				if ($product->quantity != $this->stock) {
+					StockAvailable::setQuantity($product->id, null, $this->stock);
+				}
+
 				//die(print_r($product, true));
 			} else {
 				$product = new Product();
@@ -200,7 +219,7 @@ class Msav_VokrugLamp_Product {
 					}
 				}
 
-				die(print_r($product, true));
+				//die(print_r($product, true));
 			}
 		}
 
