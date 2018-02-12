@@ -208,12 +208,22 @@ class Msav_VokrugLamp_Product {
 	}
 
 	/**
-	 * Returns the HTML description test
+	 * Returns the HTML description text.
 	 *
 	 * @return string
 	 */
 	public function get_description_html() {
-		$res = '<h3>Характеристики</h3>';
+		$res = '';
+
+		if (count($this->params) > 0) {
+			foreach ( $this->params as $param ) {
+				$res .= sprintf('<li><b>%s:</b> %s</li>', $param['name'], $param['value']);
+			}
+
+			if ($res != '') {
+				$res = sprintf('<h3>Характеристики</h3><ul>%s</ul>', $res);
+			}
+		}
 
 		return $res;
 	} // get_description_html
