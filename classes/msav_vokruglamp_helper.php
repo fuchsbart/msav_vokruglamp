@@ -1,6 +1,7 @@
 <?php
 
 require_once (dirname(__FILE__) . '/msav_vokruglamp_xml.php');
+require_once (dirname(__FILE__) . '/msav_vokruglamp_image.php');
 require_once (dirname(__FILE__) . '/msav_vokruglamp_category.php');
 require_once (dirname(__FILE__) . '/msav_vokruglamp_manufacturer.php');
 require_once (dirname(__FILE__) . '/msav_vokruglamp_feature.php');
