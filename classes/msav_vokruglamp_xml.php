@@ -68,4 +68,17 @@ class Msav_VokrugLamp_XML {
 		$this->remote_url = '';
 	}
 
+	/**
+	 * Delete the XML file.
+	 *
+	 * @return bool
+	 */
+	public function delete_file() {
+		$res = false;
+		if ($this->success && file_exists($this->local_path) && unlink($this->local_path)) {
+			$res = true;
+		}
+		return $res;
+	} // delete_file
+
 }

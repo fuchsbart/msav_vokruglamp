@@ -161,6 +161,8 @@ class Msav_VokrugLamp_Product {
 					StockAvailable::setQuantity($product->id, null, $this->stock);
 				}
 
+				$res = true;
+
 				//die(print_r($product, true));
 			} else {
 				$product = new Product();
@@ -217,10 +219,13 @@ class Msav_VokrugLamp_Product {
 					foreach ( $this->images as $image ) {
 						$image->copy_image($product->id, $product->name);
 					}
+
+					$res = true;
 				}
 
 				//die(print_r($product, true));
 			}
+			unset($product);
 		}
 
 		return $res;
