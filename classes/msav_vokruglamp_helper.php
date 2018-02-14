@@ -13,7 +13,7 @@ if (!defined('_PS_VERSION_'))
 class Msav_VokrugLamp_Helper {
 
 	/** Maximum rows offset. */
-	const TASK_OFFSET = 10;
+	const TASK_OFFSET = 200;
 
 	/**
 	 * Represents the current class global instance.
@@ -94,7 +94,7 @@ class Msav_VokrugLamp_Helper {
 						} else {
 							$current_offset = -1;
 						}
-						/*if ($current_offset > 50)
+						/*if ($current_offset > 1000)
 							die('zzz '.$current_offset);*/
 					}
 
