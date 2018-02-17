@@ -17,6 +17,13 @@ class Msav_VokrugLamp_Shell {
 	public $offset;
 
 	/**
+	 * Log file name.
+	 *
+	 * @var string
+	 */
+	public $log_file_name;
+
+	/**
 	 * Returns the current class global instance.
 	 *
 	 * @return Msav_VokrugLamp_Shell
@@ -33,6 +40,8 @@ class Msav_VokrugLamp_Shell {
 	 */
 	public function __construct() {
 		$this->offset = 0;
+		$this->log_file_name = dirname(__FILE__) . '/import.log';
+		$this->init_log();
 	}
 
 	/**
@@ -56,9 +65,11 @@ class Msav_VokrugLamp_Shell {
 
 				$response = curl_exec($curl);
 				if (curl_errno($curl)) {
+					$this->log(sprintf("Error: %s", curl_error($curl)));
 					die(curl_error($curl));
 				}
 				echo $url."\n";
+				$this->log($url);
 
 				$data = json_decode($response);
 				if ($data !== null) {
@@ -70,6 +81,39 @@ class Msav_VokrugLamp_Shell {
 					die('zzz '.$this->offset);*/
 			}
 		}
+	}
+
+	/**
+	 * Initialize the log file.
+	 *
+	 * @return void
+	 */
+	private function init_log() {
+
+		$handler = @fopen($this->log_file_name, 'w');
+		if ($handler !== false) {
+			$date = new DateTime();
+			fwrite($handler, sprintf("%s - Init\n", $date->format('d.m.Y H:i:s')));
+			fclose($handler);
+		}
+
+	}
+
+	/**
+	 * Save the log message.
+	 *
+	 * @param $message string
+	 * @return void
+	 */
+	private function log($message) {
+
+		$handler = @fopen($this->log_file_name, 'a');
+		if ($handler !== false) {
+			$date = new DateTime();
+			fwrite($handler, sprintf("%s - %s\n", $date->format('d.m.Y H:i:s'), $message));
+			fclose($handler);
+		}
+
 	}
 
 }
