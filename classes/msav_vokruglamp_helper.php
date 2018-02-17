@@ -13,7 +13,7 @@ if (!defined('_PS_VERSION_'))
 class Msav_VokrugLamp_Helper {
 
 	/** Maximum rows offset. */
-	const TASK_OFFSET = 200;
+	const TASK_OFFSET = 10;
 
 	/**
 	 * Represents the current class global instance.
@@ -102,7 +102,7 @@ class Msav_VokrugLamp_Helper {
 					$this->xml_file->delete_file();
 
 				}
-			} elseif ($this->fill_categories_list()) {
+			} elseif (($this->product_offset == 0 && $this->import_categories()) || $this->fill_categories_list()) {
 				$new_offset = $this->import_products();
 				$result = array('offset' => $new_offset);
 				echo json_encode($result);
