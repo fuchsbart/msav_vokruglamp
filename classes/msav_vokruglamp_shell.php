@@ -75,12 +75,12 @@ class Msav_VokrugLamp_Shell {
 				if ($data !== null) {
 					$this->offset = (int)$data->offset;
 				} else {
-					$this->offset = -1;
-					$this->log('Finish');
+					$this->offset++;
 				}
 				/*if ($this->offset > 20)
 					die('zzz '.$this->offset);*/
 			}
+			$this->log('Finish');
 		}
 	}
 
