@@ -214,17 +214,42 @@ class Msav_VokrugLamp_Product {
 					// Set product stock
 					StockAvailable::setQuantity($product->id, null, $this->stock);
 
-					// Set product images
-					/** @var Msav_VokrugLamp_Image $image */
-					foreach ( $this->images as $image ) {
-						$image->copy_image($product->id, $product->name);
-					}
-
 					$res = true;
 				}
 
 				//die(print_r($product, true));
 			}
+
+			/*$specific_prices = SpecificPrice::getByProductId($product->id);
+			Msav_VokrugLamp_Helper::log(print_r($specific_prices, true));*/
+			SpecificPrice::deleteByProductId($product->id);
+
+			/**
+			 * DISABLE THIS SECTION!!!
+			 */
+			$product_images = Image::getImages($lang_id, $product->id);
+			if (count($product_images) > 0) {
+				foreach ( $product_images as $image ) {
+					$product_image = new Image($image['id_image'], $image['id_lang']);
+					try {
+						$product_image->delete();
+					} catch ( PrestaShopException $e ) {
+					}
+				}
+			}
+			/**
+			 * end of: DISABLE THIS SECTION!!!
+			 */
+
+			$product_images = Image::getImages($lang_id, $product->id);
+			if (count($product_images) == 0) {
+				// Set product images
+				/** @var Msav_VokrugLamp_Image $image */
+				foreach ( $this->images as $image ) {
+					$image->copy_image($product->id, $product->name);
+				}
+			}
+
 			unset($product);
 		}
 

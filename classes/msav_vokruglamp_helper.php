@@ -223,4 +223,22 @@ class Msav_VokrugLamp_Helper {
 		return self::$INSTANCE;
 		// _PS_UPLOAD_DIR_
 	}
+
+	/**
+	 * Save the log message.
+	 *
+	 * @param $message string
+	 * @return void
+	 */
+	public static function log($message) {
+
+		$file_name = dirname(__FILE__) . '/messages.log';
+		$handler = @fopen($file_name, 'a');
+		if ($handler !== false) {
+			$date = new DateTime();
+			fwrite($handler, sprintf("%s - %s\n", $date->format('d.m.Y H:i:s'), $message));
+			fclose($handler);
+		}
+
+	}
 }

@@ -77,7 +77,7 @@ class Msav_VokrugLamp_Shell {
 				} else {
 					$this->offset++;
 				}
-				/*if ($this->offset > 20)
+				/*if ($this->offset > 10)
 					die('zzz '.$this->offset);*/
 			}
 			$this->log('Finish');
